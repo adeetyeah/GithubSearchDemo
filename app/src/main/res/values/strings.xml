@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Github Org Search Demo</string>
+    <string name="search_placeholder">Search for an org</string>
+    <string name="search_button">SEARCH</string>
+    <string name="text_view">These are the most popular repositories at\u0020</string>
+    <string name="toast_done">"Done fetching data"</string>
+</resources>
