@@ -1,4 +1,4 @@
-This is a demo Android project which can take in any organization's name and provide it's 3 most starred repositories. Clicking on any of the shown repositories will launch a webview and display the repository's details. This is a great excercise to understand the use of AsyncTasks, RxAndroid(RxJava) and web views.
+This is a demo Android project which can take in any organization's name and lists all repositories based on their starts. Clicking on any of the shown repositories will launch a webview and display the repository's details. This is a great excercise to understand the use of AsyncTasks, RxAndroid(RxJava) and web views.
 
 Currently, there is no authentication for the user making the request to view an org's repositories. As a result of this, the network call maxes out at 60 requests/hour.
 
