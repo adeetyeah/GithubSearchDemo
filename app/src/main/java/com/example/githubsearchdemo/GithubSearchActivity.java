@@ -47,7 +47,7 @@ public class GithubSearchActivity extends AppCompatActivity implements Repositor
         final LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         final DividerItemDecoration itemDecoration = new DividerItemDecoration(this, layoutManager.getOrientation());
 
-        recyclerView = findViewById(R.id.listView);
+        recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
