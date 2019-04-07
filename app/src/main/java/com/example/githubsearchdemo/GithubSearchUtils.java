@@ -49,8 +49,7 @@ class GithubSearchUtils {
     }
 
     /**
-     * Gets all repositories for an organization and filters it based on the number of stars.
-     * Adds the top 3 repositories to an arrayList.
+     * Gets all repositories for an organization and sorts it based on the number of stars.
      * @param url requestUrl for an organization
      * @return {@link ArrayList<OrgRepoData>} object
      */
@@ -58,7 +57,6 @@ class GithubSearchUtils {
         final String jsonResponse = makeServiceCall(url);
 
         Map<OrgRepoData, Integer> map = new HashMap<>();
-        final ArrayList<OrgRepoData> repositoryList = new ArrayList<>();
 
         if(jsonResponse != null) {
             try {
@@ -81,14 +79,7 @@ class GithubSearchUtils {
         // Sorting map to display repos with most stars
         map = sortByComparator(map, false);
 
-        int i = 0;
-        for(final OrgRepoData repository : map.keySet()) {
-            if(i<3) {
-                repositoryList.add(repository);
-                i++;
-            }
-        }
-        return repositoryList;
+        return new ArrayList<>(map.keySet());
     }
 
     /**

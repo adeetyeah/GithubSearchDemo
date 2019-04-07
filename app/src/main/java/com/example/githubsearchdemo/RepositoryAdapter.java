@@ -1,39 +1,74 @@
 package com.example.githubsearchdemo;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Custom Array Adapter for {@link OrgRepoData}
+ * Custom Adapter for {@link OrgRepoData}
  */
-public class RepositoryAdapter extends ArrayAdapter<OrgRepoData> {
+public class RepositoryAdapter extends RecyclerView.Adapter<RepositoryAdapter.MyViewHolder> {
 
-    RepositoryAdapter(Context context, ArrayList<OrgRepoData> arrayList) {
-        super(context, 0, arrayList);
+    public interface RepositoryListenerInterface {
+        void onRepositoryClick(int position);
+    }
+
+    private ArrayList<OrgRepoData> repoList;
+    private RepositoryListenerInterface repositoryListenerInterface;
+
+
+    RepositoryAdapter(ArrayList<OrgRepoData> arrayList, RepositoryListenerInterface repoListenerInterface) {
+        this.repoList = arrayList;
+        this.repositoryListenerInterface = repoListenerInterface;
+    }
+
+    static class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        TextView repoName;
+        TextView repoDescription;
+        TextView repoStars;
+        RepositoryListenerInterface repoListenerInterface;
+
+        MyViewHolder(@NonNull final View itemView, final RepositoryListenerInterface repoListenerInterface) {
+            super(itemView);
+            this.repoName = itemView.findViewById(R.id.repoName);
+            this.repoDescription = itemView.findViewById(R.id.repoDescription);
+            this.repoStars = itemView.findViewById(R.id.repoStars);
+
+            this.repoListenerInterface = repoListenerInterface;
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(final View view) {
+            repoListenerInterface.onRepositoryClick(getAdapterPosition());
+        }
     }
 
     @NonNull
     @Override
-    public View getView(final int position, View convertView, @NonNull final ViewGroup parent) {
-        OrgRepoData repository = getItem(position);
-        if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_list_view, parent, false);
-        }
+    public RepositoryAdapter.MyViewHolder onCreateViewHolder(@NonNull final ViewGroup viewGroup, final int i) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_list_view, viewGroup, false);
+        return new MyViewHolder(view, repositoryListenerInterface);
+    }
 
-        TextView repoName = convertView.findViewById(R.id.repoName);
-        TextView repoDescription = convertView.findViewById(R.id.repoDescription);
-        TextView repoStars = convertView.findViewById(R.id.repoStars);
+    @Override
+    public void onBindViewHolder(@NonNull final RepositoryAdapter.MyViewHolder myViewHolder, final int i) {
+        final TextView repoName = myViewHolder.repoName;
+        final TextView repoDescription = myViewHolder.repoDescription;
+        final TextView repoStars = myViewHolder.repoStars;
         final String star = " ✰";
 
-        repoName.setText(repository.getName());
-        repoDescription.setText(repository.getDescription());
-        repoStars.setText(repository.getStars() + star);
-        return convertView;
+        repoName.setText(repoList.get(i).getName());
+        repoDescription.setText(repoList.get(i).getDescription());
+        repoStars.setText(repoList.get(i).getStars() + star);
+    }
+
+    @Override
+    public int getItemCount() {
+        return repoList.size();
     }
 }
